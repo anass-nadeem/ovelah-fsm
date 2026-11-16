@@ -1,0 +1,34 @@
+# ---- Secrets & real company data: NEVER commit ----
+.env
+.env.*
+!.env.example
+backend/auth_config.json
+backend/*.db
+backend/*.db-journal
+backend/*.db-wal
+backend/*.db-shm
+*.db
+storage/*
+!storage/.gitkeep
+import/*
+!import/.gitkeep
+database/seed_data/*.xlsx
+
+# ---- Windows-only binaries (production will use Linux/Docker) ----
+backend/bin/
+
+# ---- Build output & dependencies ----
+node_modules/
+.next/
+out/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  /* Sampled directly from the real IES letterhead logo - not
+     generic Tailwind defaults. */
+  --color-ies-blue: #016db9;
+  --color-ies-blue-dark: #014f87;
+  --color-ies-red: #e83725;
+
+  --color-ies-navy-950: #071a2c;
+  --color-ies-navy-900: #0c2740;
+  --color-ies-navy-800: #123553;
+  --color-ies-navy-700: #1b4568;
+
+  --color-ies-ink: #16212b;
+  --color-ies-muted: #64748b;
+  --color-ies-canvas: #f5f7fa;
+
+  --font-display: var(--font-space-grotesk), ui-sans-serif, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, sans-serif;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+}

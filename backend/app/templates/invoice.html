@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+    @page {
+        size: A4;
+        margin: 6mm 14mm 26mm 14mm;
+
+        @bottom-center {
+            content: element(footer);
+        }
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Helvetica, Arial, sans-serif;
+        color: #1A1A1A;
+        font-size: 9.5pt;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header-logo {
+        display: block;
+        width: 100%;
+        max-width: 180mm;
+        margin-bottom: 4pt;
+    }
+
+    .ntn-line {
+        text-align: right;
+        font-size: 10pt;
+        font-weight: bold;
+        margin-bottom: 6pt;
+    }
+
+    .doc-title {
+        text-align: center;
+        font-size: 22pt;
+        font-weight: bold;
+        margin: 0 0 20pt 0;
+    }
+
+    .info-block {
+        width: 100%;
+        border-top: 1pt solid #000;
+        border-bottom: 1pt solid #000;
+        border-collapse: collapse;
+        margin-bottom: 0;
+    }
+
+    .info-block td {
+        vertical-align: top;
+        padding: 6pt 0;
+        font-size: 9.5pt;
+    }
+
+    .info-block td.left-col {
+        width: 52%;
+    }
+
+    .info-row {
+        margin: 0;
+        line-height: 15pt;
+    }
+
+    .info-row .label {
+        display: inline-block;
+        font-weight: bold;
+    }
+
+    .info-row .label.narrow {
+        width: 30mm;
+    }
+
+    .info-row .label.wide {
+        width: 38mm;
+    }
+
+    .subject-bar {
+        width: 100%;
+        border-bottom: 1pt solid #000;
+        text-align: center;
+        font-size: 9.5pt;
+        font-weight: bold;
+        padding: 3pt 0;
+        margin-bottom: 8pt;
+    }
+
+    table.items {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 14pt;
+        font-size: 9pt;
+    }
+
+    table.items th {
+        background: #9DC3E6;
+        border: 0.75pt solid #000;
+        padding: 2pt 5pt;
+        font-weight: bold;
+        text-align: center;
+        line-height: 11pt;
+    }
+
+    table.items td {
+        border: 0.75pt solid #000;
+        padding: 2pt 5pt;
+        vertical-align: middle;
+        line-height: 11pt;
+    }
+
+    table.items td.sr, table.items td.qty, table.items td.uom {
+        text-align: center;
+    }
+
+    table.items td.amount {
+        text-align: right;
+    }
+
+    table.items tr.total-row td {
+        background: #AFCBEC;
+        font-weight: bold;
+    }
+
+    table.items tr.total-row td.total-label {
+        text-align: center;
+    }
+
+    .terms-bar {
+        width: 100%;
+        background: #9DC3E6;
+        border: 0.75pt solid #000;
+        text-align: center;
+        font-weight: bold;
+        font-size: 9.5pt;
+        padding: 3pt 0;
+        margin-bottom: 8pt;
+    }
+
+    .terms-row {
+        line-height: 16pt;
+        font-size: 9.5pt;
+    }
+
+    .terms-row .label {
+        display: inline-block;
+        font-weight: bold;
+        width: 32mm;
+    }
+
+    .signature-block {
+        margin-top: 26pt;
+    }
+
+    .signature-block .sm-label {
+        font-size: 9.5pt;
+        font-weight: bold;
+        line-height: 14pt;
+    }
+
+    .signature-img {
+        display: block;
+        width: 45mm;
+        margin-top: 4pt;
+        margin-bottom: -14pt;
+        position: relative;
+        z-index: 2;
+    }
+
+    .stamp-img {
+        display: block;
+        width: 60mm;
+        position: relative;
+        z-index: 1;
+    }
+
+    .footer {
+        position: running(footer);
+        width: 182mm;
+    }
+
+    .footer img {
+        display: block;
+        width: 182mm;
+    }
+</style>
+</head>
+<body>
+
+    <img class="header-logo" src="{{ header_logo_uri }}">
+
+    <div class="ntn-line">NTN Number&nbsp;&nbsp;&nbsp;&nbsp;: {{ ntn_number }}</div>
+
+    <div class="doc-title">{{ document_title }}</div>
+
+    <table class="info-block">
+        <tr>
+            <td class="left-col">
+                <div class="info-row"><span class="label narrow">Customer Name</span>: {{ customer_name }}</div>
+                <div class="info-row"><span class="label narrow">Branch</span>: {{ branch_name }}</div>
+                <div class="info-row"><span class="label narrow">Assigned By</span>: {{ assigned_by or "—" }}</div>
+            </td>
+            <td>
+                <div class="info-row"><span class="label wide">{{ document_number_label }}</span>: {{ document_number }}</div>
+                <div class="info-row"><span class="label wide">Date</span>: </div>
+                                {% if show_pr_number %}
+                <div class="info-row"><span class="label wide">PR Number</span>: {{ pr_number or "—" }}</div>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <div class="subject-bar">Subject :&nbsp; {{ subject or "—" }}</div>
+
+    <table class="items">
+        <thead>
+            <tr>
+                <th style="width: 10mm;">Sr.</th>
+                <th>Description</th>
+                <th style="width: 14mm;">Qty</th>
+                <th style="width: 16mm;">UOM</th>
+                <th style="width: 32mm;">Unit Amount</th>
+                <th style="width: 32mm;">Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td class="sr">{{ item.sr_no }}</td>
+                <td>{{ item.description }}</td>
+                <td class="qty">{{ item.qty_display }}</td>
+                <td class="uom">{{ item.uom }}</td>
+                <td class="amount">{{ item.unit_rate_display }}</td>
+                <td class="amount">{{ item.amount_display }}</td>
+            </tr>
+            {% endfor %}
+            <tr class="total-row">
+                <td class="total-label" colspan="5">Total Amount</td>
+                <td class="amount">{{ total_amount_display }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="terms-bar">Terms &amp; Conditions</div>
+
+    <div class="terms-row"><span class="label">Payment Terms</span>: {{ payment_terms }}</div>
+
+    <div class="signature-block">
+        <div class="sm-label">Service-Manager</div>
+        <div class="sm-label">{{ service_manager_name }}</div>
+        <img class="signature-img" src="{{ signature_uri }}">
+        <img class="stamp-img" src="{{ stamp_uri }}">
+    </div>
+
+    <div class="footer">
+        <img src="{{ footer_bar_uri }}">
+    </div>
+
+</body>
+</html>

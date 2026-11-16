@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+    @page {
+        size: A4;
+        margin: 6mm 14mm 26mm 14mm;
+
+        @bottom-center {
+            content: element(footer);
+        }
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Helvetica, Arial, sans-serif;
+        color: #1A1A1A;
+        font-size: 9.5pt;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header-logo {
+        display: block;
+        width: 100%;
+        max-width: 180mm;
+        margin-bottom: 4pt;
+    }
+
+    .date-line {
+        text-align: right;
+        font-size: 10pt;
+        margin: 18pt 0 6pt 0;
+    }
+
+    .date-line .value {
+        text-decoration: underline;
+    }
+
+    .receiving-info {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20pt;
+    }
+
+    .receiving-info td {
+        vertical-align: top;
+        font-size: 10pt;
+        padding: 0;
+    }
+
+    .receiving-info td.left-col {
+        width: 60%;
+    }
+
+    .receiving-info .label {
+        font-weight: bold;
+    }
+
+    .receiving-title {
+        text-align: center;
+        font-size: 13pt;
+        font-weight: bold;
+        text-decoration: underline;
+        margin: 0 0 22pt 0;
+    }
+
+    table.receiving-items {
+        width: 165mm;
+        margin: 0 auto 14pt auto;
+        border-collapse: collapse;
+        font-size: 9pt;
+    }
+
+    table.receiving-items th {
+        background: #8EAADB;
+        border: 0.75pt solid #000;
+        padding: 3pt 6pt;
+        font-weight: bold;
+        text-align: center;
+        line-height: 11pt;
+    }
+
+    table.receiving-items td {
+        border: 0.75pt solid #000;
+        padding: 3pt 6pt;
+        vertical-align: middle;
+        line-height: 12pt;
+    }
+
+    table.receiving-items td.sr,
+    table.receiving-items td.qty {
+        text-align: center;
+    }
+
+    .sign-stamp-block {
+        margin-top: 60pt;
+        width: 70mm;
+    }
+
+    .sign-stamp-line {
+        border-bottom: 0.75pt solid #000;
+        height: 28pt;
+    }
+
+    .sign-stamp-label {
+        margin-top: 4pt;
+        font-size: 9.5pt;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .footer {
+        position: running(footer);
+        width: 182mm;
+    }
+
+    .footer img {
+        display: block;
+        width: 182mm;
+    }
+</style>
+</head>
+<body>
+
+    <img class="header-logo" src="{{ header_logo_uri }}">
+
+    <div class="date-line">Date :&nbsp; <span class="value">{{ document_date }}</span></div>
+
+    <table class="receiving-info">
+        <tr>
+            <td class="left-col">
+                <span class="label">Branch:</span> {{ branch_name }}
+            </td>
+            <td>
+                {{ pr_number or "—" }}
+            </td>
+        </tr>
+    </table>
+
+    <div class="receiving-title">Receiving</div>
+
+    <table class="receiving-items">
+        <thead>
+            <tr>
+                <th style="width: 11mm;">Sr#</th>
+                <th>Description</th>
+                <th style="width: 55mm;">Qty</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td class="sr">{{ item.sr_no }}</td>
+                <td>{{ item.description }}</td>
+                <td class="qty">{{ item.qty_display }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="sign-stamp-block">
+        <div class="sign-stamp-line"></div>
+        <div class="sign-stamp-label">Branch Sign &amp; Stamp</div>
+    </div>
+
+    <div class="footer">
+        <img src="{{ footer_bar_uri }}">
+    </div>
+
+</body>
+</html>
